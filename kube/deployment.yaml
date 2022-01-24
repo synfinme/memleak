@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: memleak
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: memleak
+  template:
+    metadata:
+      labels:
+        app: memleak
+    spec:
+      containers:
+      - name: memleak
+        command:
+        - /opt/memleak/memleak
+        args:
+        # Allocate 128M every second (128 * 1024 * 1024)
+        - "134217728"
+        image: synfinmelab/memleak:v0.1
+        imagePullPolicy: IfNotPresent
