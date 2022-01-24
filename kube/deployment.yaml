@@ -17,7 +17,13 @@ spec:
         command:
         - /opt/memleak/memleak
         args:
-        # Allocate 128M every second (128 * 1024 * 1024)
-        - "134217728"
-        image: synfinmelab/memleak:v0.1
+        #- "134217728" # Allocate 128M every second (128 * 1024 * 1024)
+        #- "33554432"  # Allocate  32M every second  (32 * 1024 * 1024)
+        #- "10485760"  # Allocate  10M every second  (10 * 1024 * 1024)
+        - "5242880"   # Allocate   5M every second   (5 * 1024 * 1024)
+        image: synfinmelab/memleak:v0.2
         imagePullPolicy: IfNotPresent
+        ## Pod gets evicted; if we want OOMKill, uncomment resources.limits:
+        #resources:
+        #  limits:
+        #    memory: 1Gi

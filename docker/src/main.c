@@ -5,9 +5,9 @@
 #include <unistd.h>
 
 // This program intentionally leaks memory.  Its intended use
-// case -- testing/tuning monitoring/alerting systems.
+// case -- testing/tuning of monitoring/alerting systems.
 
-static size_t min_chunk_size = 10 * 1024 * 1024;
+static size_t min_chunk_size = 1024 * 1024;
 
 static size_t round_chunk_size(size_t mem_chunk);
 static size_t get_chunk_size(char * arg1);
