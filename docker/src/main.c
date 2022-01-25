@@ -4,8 +4,10 @@
 #include <stdlib.h>
 #include <unistd.h>
 
-// This program intentionally leaks memory.  Its intended use
-// case -- testing/tuning of monitoring/alerting systems.
+// This program intentionally leaks memory.  Its intended use case --
+// testing/tuning of monitoring systems.
+
+#define PAGE_SIZE (4096U)
 
 static size_t min_chunk_size = 1024 * 1024;
 
@@ -13,7 +15,8 @@ static size_t round_chunk_size(size_t mem_chunk);
 static size_t get_chunk_size(char * arg1);
 static void * allocate_memory(size_t mem_chunk);
 
-int main(int argc, char * argv[]) {
+int main(int argc, char * argv[])
+{
     size_t mem_chunk = min_chunk_size;
     size_t mem_total = 0;
 
@@ -47,12 +50,14 @@ int main(int argc, char * argv[]) {
 }
 
 static size_t
-round_chunk_size(size_t mem_chunk) {
-    return (mem_chunk / 4096U) * 4096U;
+round_chunk_size(size_t mem_chunk)
+{
+    return (mem_chunk / PAGE_SIZE) * PAGE_SIZE;
 }
 
 static size_t
-get_chunk_size(char * arg1) {
+get_chunk_size(char * arg1)
+{
     long int val;
 
     errno = 0;
@@ -69,10 +74,11 @@ get_chunk_size(char * arg1) {
 }
 
 static void *
-allocate_memory(size_t mem_chunk) {
+allocate_memory(size_t mem_chunk)
+{
     void * memptr = malloc(mem_chunk);
     int8_t * ptr = (int8_t *)memptr;
-    for (size_t i = 0; i < mem_chunk; i += 4096U) {
+    for (size_t i = 0; i < mem_chunk; i += PAGE_SIZE) {
         ptr[i] = 1;
     }
     return memptr;
